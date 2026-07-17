@@ -37,18 +37,33 @@ class RuleBasedExtractor(BaseExtractor):
                     matches.append({
                         "canonical": rule["canonical"],
                         "matched_text": match.group(0),
-                        "start": match.start()
+                        "start": match.start(),
+                        "end": match.end()
                     })
 
-            # Sort matches by their appearance in the text
-            matches.sort(key=lambda x: x["start"])
+            # Sort matches by span length descending to prioritize longer compound matches
+            matches.sort(key=lambda x: (x["end"] - x["start"]), reverse=True)
+
+            # Prune matches that are fully contained substrings of longer matches
+            pruned_matches = []
+            for m in matches:
+                is_subspan = False
+                for accepted in pruned_matches:
+                    if accepted["start"] <= m["start"] and m["end"] <= accepted["end"]:
+                        is_subspan = True
+                        break
+                if not is_subspan:
+                    pruned_matches.append(m)
+
+            # Sort pruned matches by their appearance in the text
+            pruned_matches.sort(key=lambda x: x["start"])
 
             if attribute == "Color":
                 # For color, return all unique matching canonical colors
                 colors = []
                 seen = set()
                 matched_words = []
-                for m in matches:
+                for m in pruned_matches:
                     if m["canonical"] not in seen:
                         seen.add(m["canonical"])
                         colors.append(m["canonical"])
@@ -58,10 +73,10 @@ class RuleBasedExtractor(BaseExtractor):
                 matched_terms[attribute] = matched_words
             else:
                 # For single-value fields, take the first occurrence in the text
-                if matches:
-                    extracted[attribute] = matches[0]["canonical"]
+                if pruned_matches:
+                    extracted[attribute] = pruned_matches[0]["canonical"]
                     confidence[attribute] = 1.0
-                    matched_terms[attribute] = [matches[0]["matched_text"]]
+                    matched_terms[attribute] = [pruned_matches[0]["matched_text"]]
                 else:
                     extracted[attribute] = None
                     confidence[attribute] = 0.0

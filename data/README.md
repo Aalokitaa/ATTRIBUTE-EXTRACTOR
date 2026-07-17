@@ -3,9 +3,9 @@
 This directory contains the labeled dataset for the fashion/apparel product attribute extraction task.
 
 ## Dataset Files
-- `labeled_dataset.jsonl`: The full set of 60 manually labeled product descriptions.
-- `train.jsonl`: Training split (80% or 48 examples).
-- `test.jsonl`: Held-out testing split (20% or 12 examples).
+- `labeled_dataset.jsonl`: The full set of 71 curated product descriptions.
+- `train.jsonl`: Training split (80% or 56 examples).
+- `test.jsonl`: Held-out testing split (20% or 15 examples).
 
 ## Split Methodology
 - Split logic is implemented in `src/generate_data.py` with a fixed random seed of `42`.
@@ -21,9 +21,9 @@ Each example contains a `description` field and 8 target attributes. The target 
 | `fabric` | string / null | chiffon, satin, lace, tulle, velvet, sequin, jersey | The primary material/fabric used. |
 | `neckline` | string / null | V neck, sweetheart, off shoulder, square, illusion, one shoulder | The style of the neckline. |
 | `sleeve` | string / null | long sleeve, cap sleeve, puff sleeve, sleeveless, strapless | The type/length of sleeves. |
-| `length` | string / null | floor length, short, mini, sweep train, high slit | The length of the skirt/dress or train details. |
+| `length` | string / null | floor length, short, mini, sweep train, high slit, midi, knee length, ankle length | The length of the skirt/dress or train details. |
 | `embellishment` | string / null | beaded, sequin, embroidery, feather trim, ruched, pleated | The decoration/embellishment on the dress. |
-| `color` | list | sage, dusty blue, royal navy, emerald, black, white, ivory, red, gold, silver, rose gold, blush, champagne, lavender, burgundy, plum | A list of colors appearing in the description. |
+| `color` | list | sage, dusty blue, royal navy, emerald, black, white, ivory, red, gold, silver, rose gold, blush, champagne, lavender, burgundy, plum, purple, pink, blue, green | A list of colors appearing in the description. |
 | `category` | string / null | bridesmaid dress, prom gown, wedding dress, cocktail dress, evening gown | The product category/occasion classification. |
 
 ## Annotation & Matching Guidelines

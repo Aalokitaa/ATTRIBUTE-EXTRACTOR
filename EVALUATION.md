@@ -12,15 +12,15 @@ This report evaluates and compares the performance of the **Rule-Based** and **M
 | `Sleeve` | 8 / 15 | 100.00% | 93.33% | 100.00% | 93.33% |
 | `Length` | 10 / 15 | 100.00% | 93.33% | 100.00% | 94.74% |
 | `Embellishment` | 7 / 15 | 100.00% | 100.00% | 100.00% | 100.00% |
-| `Color` | 11 / 15 | 93.33% | 93.33% | 96.00% | 96.00% |
+| `Color` | 11 / 15 | 100.00% | 100.00% | 100.00% | 100.00% |
 | `Category` | 15 / 15 | 86.67% | 73.33% | 92.86% | 78.57% |
 
 ### Overall Performance
 
 | Strategy | Micro-F1 | Macro-F1 |
 |---|---|---|
-| **Rule-Based** | 97.01% | 97.71% |
-| **ML-Based** | 90.80% | 91.40% |
+| **Rule-Based** | 97.59% | 98.21% |
+| **ML-Based** | 91.36% | 91.90% |
 
 ---
 
@@ -48,7 +48,6 @@ Below are the logged cases where the ML model automatically fell back to the rul
 - Row 1: Field 'Color' fallback triggered: Colors ['pink'] have < 3 training examples. Fell back to rule-based.
 - Row 7: Field 'Color' fallback triggered: Colors ['lavender'] have < 3 training examples. Fell back to rule-based.
 - Row 9: Field 'Color' fallback triggered: Colors ['gold'] have < 3 training examples. Fell back to rule-based.
-- Row 11: Field 'Color' fallback triggered: Colors ['blue'] have < 3 training examples. Fell back to rule-based.
 - Row 12: Field 'Silhouette' fallback triggered: Class 'fit and flare' has < 3 training examples. Fell back to rule-based.
 
 ---

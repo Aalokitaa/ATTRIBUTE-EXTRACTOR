@@ -17,7 +17,7 @@ Given free-text fashion descriptions, the pipeline extracts a structured JSON ob
 
 ## Design & Hybrid Approach
 
-With a tiny labeled dataset (~60 rows), a pure ML classifier trained on raw TF-IDF suffers from sparsity and overfitting. Similarly, a pure LLM approach is expensive and requires API keys and network calls.
+With a tiny labeled dataset (~71 rows), a pure ML classifier trained on raw TF-IDF suffers from sparsity and overfitting. Similarly, a pure LLM approach is expensive and requires API keys and network calls.
 
 This project employs a **Hybrid Extractor**:
 1. **Rule-Based Engine**: Matches synonyms against a central controlled vocabulary (`src/vocabulary.py`) using regular expressions with strict word boundaries (`\b(synonym)\b`).
@@ -32,12 +32,11 @@ This project employs a **Hybrid Extractor**:
 product-attribute-extraction/
 ├── README.md                # Top-level documentation
 ├── EVALUATION.md            # Detailed accuracy reporting
-├── DEMO_SCRIPT.md           # Step-by-step commands and talking points
 ├── requirements.txt         # Pinned python dependencies
 ├── Dockerfile               # Container build configuration
 ├── data/
 │   ├── README.md            # Labeled dataset details & ontology
-│   ├── labeled_dataset.jsonl# Full 60-row curated dataset
+│   ├── labeled_dataset.jsonl# Full 71-row curated dataset
 │   ├── train.jsonl          # 80% Train split
 │   └── test.jsonl           # 20% Test split
 ├── models/
@@ -139,20 +138,19 @@ curl -X 'POST' \
   "Embellishment": "pleated",
   "Color": [
     "sage",
-    "dusty blue",
-    "blue"
+    "dusty blue"
   ],
   "Category": "bridesmaid dress",
   "strategy_used": "ml",
   "confidence": {
     "Silhouette": 0.0,
-    "Fabric": 0.9082625974214477,
-    "Neckline": 0.7584312370587759,
+    "Fabric": 0.8788849705143985,
+    "Neckline": 0.790077789845744,
     "Sleeve": 0.0,
-    "Length": 0.8804304675850594,
-    "Embellishment": 0.919189434155705,
-    "Color": 0.9557683754283849,
-    "Category": 0.9615432333621193
+    "Length": 0.8610256016029754,
+    "Embellishment": 0.9072656343313144,
+    "Color": 0.8809799674742964,
+    "Category": 0.9391871174332825
   },
   "matched_terms": {
     "Silhouette": [],
@@ -167,15 +165,14 @@ curl -X 'POST' \
       "Floor length"
     ],
     "Embellishment": [
-      "pleated"
+      "pleated bodice"
     ],
     "Category": [
       "bridesmaid dress"
     ],
     "Color": [
       "sage",
-      "dusty blue",
-      "blue"
+      "dusty blue"
     ]
   }
 }
@@ -223,7 +220,7 @@ curl -X 'POST' \
       "Sparkly sequin"
     ],
     "Neckline": [
-      "illusion"
+      "illusion neckline"
     ],
     "Sleeve": [],
     "Length": [],
@@ -567,7 +564,7 @@ curl -X 'POST' \
     "Silhouette": [],
     "Fabric": [],
     "Neckline": [
-      "sweetheart"
+      "sweetheart neckline"
     ],
     "Sleeve": [
       "Strapless"
@@ -677,7 +674,7 @@ curl -X 'POST' \
       "Velvet"
     ],
     "Neckline": [
-      "square"
+      "square neckline"
     ],
     "Sleeve": [
       "puff sleeves"
@@ -698,4 +695,4 @@ curl -X 'POST' \
 ## Known Limitations and Next Steps
 1. **Out of Vocabulary (OOV) Terms**: The rule-based engine and the stacked binary features only capture matches in our controlled vocabulary list. Adding word vector embeddings (like GloVe or BERT) will help generalise matching to synonyms not in the seed vocabulary.
 2. **Context Blindness in Rules**: A simple keyword-matching approach might mismatch negation (e.g. "does not have long sleeves" still matches "long sleeve"). Transitioning to a proper NER parser (like spaCy Custom NER) will resolve context.
-3. **Small Test Set**: The 12-sample test set makes performance metrics highly sensitive. We suggest scaling the dataset using automated synthesizers to at least 500 records before launching to production.
+3. **Small Test Set**: The 15-sample test set makes performance metrics highly sensitive. We suggest scaling the dataset using automated synthesizers to at least 500 records before launching to production.
