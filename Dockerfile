@@ -14,6 +14,7 @@ COPY "src" "/app/src"
 COPY "data" "/app/data"
 COPY "api" "/app/api"
 COPY "models" "/app/models"
+COPY "frontend" "/app/frontend"
 
 # Expose port 8000
 EXPOSE 8000
