@@ -155,13 +155,26 @@ curl -X 'POST' \
   },
   "matched_terms": {
     "Silhouette": [],
-    "Fabric": [],
-    "Neckline": [],
+    "Fabric": [
+      "chiffon"
+    ],
+    "Neckline": [
+      "V neckline"
+    ],
     "Sleeve": [],
-    "Length": [],
-    "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Length": [
+      "Floor length"
+    ],
+    "Embellishment": [
+      "pleated"
+    ],
+    "Category": [
+      "bridesmaid dress"
+    ],
+    "Color": [
+      "sage",
+      "dusty blue"
+    ]
   }
 }
 ```
@@ -199,18 +212,26 @@ curl -X 'POST' \
     "Sleeve": 0.0,
     "Length": 0.0,
     "Embellishment": 0.691312590147468,
-    "Color": 1.0,
+    "Color": 0.0,
     "Category": 0.6561140905749473
   },
   "matched_terms": {
     "Silhouette": [],
-    "Fabric": [],
-    "Neckline": [],
+    "Fabric": [
+      "Sparkly sequin"
+    ],
+    "Neckline": [
+      "illusion"
+    ],
     "Sleeve": [],
     "Length": [],
-    "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Embellishment": [
+      "sequin"
+    ],
+    "Category": [
+      "prom gown"
+    ],
+    "Color": []
   }
 }
 ```
@@ -254,14 +275,24 @@ curl -X 'POST' \
     "Category": 0.0
   },
   "matched_terms": {
-    "Silhouette": [],
-    "Fabric": [],
-    "Neckline": [],
+    "Silhouette": [
+      "ball gown"
+    ],
+    "Fabric": [
+      "satin"
+    ],
+    "Neckline": [
+      "Off shoulder"
+    ],
     "Sleeve": [],
-    "Length": [],
+    "Length": [
+      "sweep train"
+    ],
     "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Category": [],
+    "Color": [
+      "royal navy"
+    ]
   }
 }
 ```
@@ -299,18 +330,26 @@ curl -X 'POST' \
     "Sleeve": 0.8181483513979343,
     "Length": 0.0,
     "Embellishment": 0.0,
-    "Color": 1.0,
+    "Color": 0.0,
     "Category": 0.8499341886499223
   },
   "matched_terms": {
-    "Silhouette": [],
-    "Fabric": [],
+    "Silhouette": [
+      "mermaid"
+    ],
+    "Fabric": [
+      "Lace"
+    ],
     "Neckline": [],
-    "Sleeve": [],
+    "Sleeve": [
+      "long sleeves"
+    ],
     "Length": [],
     "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Category": [
+      "wedding dress"
+    ],
+    "Color": []
   }
 }
 ```
@@ -348,7 +387,7 @@ curl -X 'POST' \
     "Sleeve": 0.0,
     "Length": 0.8196712110735843,
     "Embellishment": 0.8058918624163574,
-    "Color": 1.0,
+    "Color": 0.0,
     "Category": 0.8766707228591807
   },
   "matched_terms": {
@@ -356,10 +395,16 @@ curl -X 'POST' \
     "Fabric": [],
     "Neckline": [],
     "Sleeve": [],
-    "Length": [],
-    "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Length": [
+      "Short"
+    ],
+    "Embellishment": [
+      "feather trim"
+    ],
+    "Category": [
+      "cocktail dress"
+    ],
+    "Color": []
   }
 }
 ```
@@ -397,18 +442,28 @@ curl -X 'POST' \
     "Sleeve": 0.7763061615129679,
     "Length": 0.0,
     "Embellishment": 0.9107930355553752,
-    "Color": 1.0,
+    "Color": 0.0,
     "Category": 0.8289008648795134
   },
   "matched_terms": {
-    "Silhouette": [],
-    "Fabric": [],
+    "Silhouette": [
+      "A line"
+    ],
+    "Fabric": [
+      "Tulle"
+    ],
     "Neckline": [],
-    "Sleeve": [],
+    "Sleeve": [
+      "cap sleeves"
+    ],
     "Length": [],
-    "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Embellishment": [
+      "floral embroidery"
+    ],
+    "Category": [
+      "evening gown"
+    ],
+    "Color": []
   }
 }
 ```
@@ -446,18 +501,24 @@ curl -X 'POST' \
     "Sleeve": 0.0,
     "Length": 0.5845025670709172,
     "Embellishment": 0.45804034600311677,
-    "Color": 1.0,
+    "Color": 0.0,
     "Category": 0.0
   },
   "matched_terms": {
-    "Silhouette": [],
-    "Fabric": [],
+    "Silhouette": [
+      "sheath"
+    ],
+    "Fabric": [
+      "Stretch jersey"
+    ],
     "Neckline": [],
     "Sleeve": [],
-    "Length": [],
+    "Length": [
+      "side slit"
+    ],
     "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Category": [],
+    "Color": []
   }
 }
 ```
@@ -495,18 +556,22 @@ curl -X 'POST' \
     "Sleeve": 0.6117377596076113,
     "Length": 0.0,
     "Embellishment": 0.0,
-    "Color": 1.0,
+    "Color": 0.0,
     "Category": 0.0
   },
   "matched_terms": {
     "Silhouette": [],
     "Fabric": [],
-    "Neckline": [],
-    "Sleeve": [],
+    "Neckline": [
+      "sweetheart"
+    ],
+    "Sleeve": [
+      "Strapless"
+    ],
     "Length": [],
     "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Category": [],
+    "Color": []
   }
 }
 ```
@@ -544,18 +609,24 @@ curl -X 'POST' \
     "Sleeve": 0.0,
     "Length": 0.663016969447428,
     "Embellishment": 0.0,
-    "Color": 1.0,
+    "Color": 0.0,
     "Category": 0.0
   },
   "matched_terms": {
     "Silhouette": [],
-    "Fabric": [],
-    "Neckline": [],
+    "Fabric": [
+      "chiffon"
+    ],
+    "Neckline": [
+      "One shoulder"
+    ],
     "Sleeve": [],
-    "Length": [],
+    "Length": [
+      "high slit"
+    ],
     "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Category": [],
+    "Color": []
   }
 }
 ```
@@ -593,23 +664,32 @@ curl -X 'POST' \
     "Sleeve": 0.8353144848043164,
     "Length": 0.0,
     "Embellishment": 0.0,
-    "Color": 1.0,
+    "Color": 0.0,
     "Category": 0.8648414097304833
   },
   "matched_terms": {
     "Silhouette": [],
-    "Fabric": [],
-    "Neckline": [],
-    "Sleeve": [],
+    "Fabric": [
+      "Velvet"
+    ],
+    "Neckline": [
+      "square"
+    ],
+    "Sleeve": [
+      "puff sleeves"
+    ],
     "Length": [],
     "Embellishment": [],
-    "Color": [],
-    "Category": []
+    "Category": [
+      "formal dress"
+    ],
+    "Color": []
   }
 }
 ```
 
 ---
+
 
 ## Known Limitations and Next Steps
 1. **Out of Vocabulary (OOV) Terms**: The rule-based engine and the stacked binary features only capture matches in our controlled vocabulary list. Adding word vector embeddings (like GloVe or BERT) will help generalise matching to synonyms not in the seed vocabulary.

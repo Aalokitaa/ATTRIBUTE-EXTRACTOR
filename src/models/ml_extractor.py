@@ -140,11 +140,24 @@ class MLExtractor(BaseExtractor):
             fallback_triggered["Color"] = f"Colors {triggered_colors} have < 3 training examples. Fell back to rule-based."
 
         extracted["Color"] = pred_colors
-        confidence["Color"] = sum(color_confidences) / len(color_confidences) if color_confidences else 1.0
+        confidence["Color"] = sum(color_confidences) / len(color_confidences) if color_confidences else 0.0
+
+        # Populate matched_terms based on successfully extracted values
+        matched_terms = {}
+        for attr in ["Silhouette", "Fabric", "Neckline", "Sleeve", "Length", "Embellishment", "Category"]:
+            if extracted[attr] is not None:
+                matched_terms[attr] = rule_pred["matched_terms"].get(attr, [])
+            else:
+                matched_terms[attr] = []
+        
+        if extracted["Color"]:
+            matched_terms["Color"] = rule_pred["matched_terms"].get("Color", [])
+        else:
+            matched_terms["Color"] = []
 
         return {
             **extracted,
             "confidence": confidence,
-            "matched_terms": rule_pred["matched_terms"] if any(fallback_triggered.values()) else {k: [] for k in VOCABULARY.keys()},
+            "matched_terms": matched_terms,
             "fallback_triggered": fallback_triggered
         }
