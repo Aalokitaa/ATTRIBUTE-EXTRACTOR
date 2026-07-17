@@ -823,10 +823,17 @@
         // Endpoint routing resolver
         function getApiUrl() {
             const host = window.location.hostname;
+            // 1. If served locally on localhost or 127.0.0.1, call relatively
             if (host === "localhost" || host === "127.0.0.1") {
                 return "/extract";
             }
-            return "http://127.0.0.1:8000/extract";
+            // 2. If hosted statically on Vercel, route queries to the public backend URL
+            // (Once you deploy to Render/Railway, replace this with your actual backend URL)
+            if (host.includes("vercel.app")) {
+                return "https://attribute-extractor.onrender.com/extract";
+            }
+            // 3. If served directly from a containerized host (Render/Railway), call relatively
+            return "/extract";
         }
 
         // Call Extraction endpoint
