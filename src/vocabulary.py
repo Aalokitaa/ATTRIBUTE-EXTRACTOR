@@ -37,7 +37,10 @@ VOCABULARY = {
         "short": ["short", "short length", "above the knee"],
         "mini": ["mini", "mini length", "thigh-length"],
         "sweep train": ["sweep train", "court train", "chapel train", "with train", "puddle train"],
-        "high slit": ["high slit", "side slit", "thigh slit", "thigh-high slit", "leg slit"]
+        "high slit": ["high slit", "side slit", "thigh slit", "thigh-high slit", "leg slit"],
+        "midi": ["midi", "midi length", "midi-length", "tea length", "tea-length"],
+        "knee length": ["knee length", "knee-length", "to the knee"],
+        "ankle length": ["ankle length", "ankle-length", "to the ankle"]
     },
     "Embellishment": {
         "beaded": ["beaded", "beading", "beadwork", "crystal beaded"],
@@ -63,7 +66,11 @@ VOCABULARY = {
         "champagne": ["champagne"],
         "lavender": ["lavender", "lilac"],
         "burgundy": ["burgundy", "wine", "cabernet"],
-        "plum": ["plum"]
+        "plum": ["plum"],
+        "purple": ["purple", "violet", "plum purple"],
+        "pink": ["pink", "dusty pink", "fuchsia", "magenta"],
+        "blue": ["blue", "baby blue", "royal blue", "light blue", "sky blue"],
+        "green": ["green", "forest green", "olive green", "mint green", "hunter green"]
     },
     "Category": {
         "bridesmaid dress": ["bridesmaid dress", "bridesmaid gown", "bridesmaids dress"],

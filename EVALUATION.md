@@ -1,42 +1,42 @@
 # Evaluation Report
 
-This report evaluates and compares the performance of the **Rule-Based** and **ML-Based** product attribute extraction strategies on the held-out test split (12 examples).
+This report evaluates and compares the performance of the **Rule-Based** and **ML-Based** product attribute extraction strategies on the held-out test split (15 examples).
 
 ## Summary Metrics (Side-by-Side)
 
 | Attribute | Support (Non-Null) | Rule Accuracy | ML Accuracy | Rule F1-Score | ML F1-Score |
 |---|---|---|---|---|---|
-| `Silhouette` | 3 / 12 | 100.00% | 100.00% | 100.00% | 100.00% |
-| `Fabric` | 10 / 12 | 100.00% | 100.00% | 100.00% | 100.00% |
-| `Neckline` | 9 / 12 | 100.00% | 83.33% | 100.00% | 87.50% |
-| `Sleeve` | 6 / 12 | 100.00% | 91.67% | 100.00% | 90.91% |
-| `Length` | 9 / 12 | 100.00% | 91.67% | 100.00% | 94.12% |
-| `Embellishment` | 5 / 12 | 100.00% | 91.67% | 100.00% | 88.89% |
-| `Color` | 7 / 12 | 91.67% | 91.67% | 94.12% | 94.12% |
-| `Category` | 8 / 12 | 91.67% | 91.67% | 93.33% | 93.33% |
+| `Silhouette` | 8 / 15 | 100.00% | 86.67% | 100.00% | 85.71% |
+| `Fabric` | 14 / 15 | 93.33% | 93.33% | 92.86% | 92.86% |
+| `Neckline` | 10 / 15 | 100.00% | 93.33% | 100.00% | 90.00% |
+| `Sleeve` | 8 / 15 | 100.00% | 93.33% | 100.00% | 93.33% |
+| `Length` | 10 / 15 | 100.00% | 93.33% | 100.00% | 94.74% |
+| `Embellishment` | 7 / 15 | 100.00% | 100.00% | 100.00% | 100.00% |
+| `Color` | 11 / 15 | 93.33% | 93.33% | 96.00% | 96.00% |
+| `Category` | 15 / 15 | 86.67% | 73.33% | 92.86% | 78.57% |
 
 ### Overall Performance
 
 | Strategy | Micro-F1 | Macro-F1 |
 |---|---|---|
-| **Rule-Based** | 98.28% | 98.43% |
-| **ML-Based** | 93.69% | 93.61% |
+| **Rule-Based** | 97.01% | 97.71% |
+| **ML-Based** | 90.80% | 91.40% |
 
 ---
 
 ## Detailed Test Set Support & Class Breakdown
 
-This section lists the exact class-level and value-level support counts backing the evaluation metrics on the test split (12 examples total).
+This section lists the exact class-level and value-level support counts backing the evaluation metrics on the test split (15 examples total).
 
 ### Value-Level Occurrences
-- **Silhouette** (Total non-null: 3): `sheath` (2), `ball gown` (1)
-- **Fabric** (Total non-null: 10): `sequin` (3), `satin` (2), `jersey` (2), `lace` (1), `chiffon` (1), `velvet` (1)
-- **Neckline** (Total non-null: 9): `illusion` (3), `sweetheart` (2), `off shoulder` (2), `one shoulder` (1), `square` (1)
-- **Sleeve** (Total non-null: 6): `strapless` (2), `puff sleeve` (2), `long sleeve` (1), `sleeveless` (1)
-- **Length** (Total non-null: 9): `high slit` (4), `sweep train` (3), `short` (2)
-- **Embellishment** (Total non-null: 5): `sequin` (3), `ruched` (1), `feather trim` (1)
-- **Color** (Total non-null: 7): `royal navy` (2), `silver` (2), `ivory` (1), `white` (1), `black` (1), `rose gold` (1)
-- **Category** (Total non-null: 8): `wedding dress` (2), `prom gown` (2), `evening gown` (2), `cocktail dress` (2)
+- **Silhouette** (Total non-null: 8): `mermaid` (3), `A-line` (2), `ball gown` (2), `fit and flare` (1)
+- **Fabric** (Total non-null: 14): `lace` (4), `satin` (3), `sequin` (2), `chiffon` (2), `velvet` (2), `tulle` (1)
+- **Neckline** (Total non-null: 10): `off shoulder` (3), `sweetheart` (3), `illusion` (1), `V neck` (1), `one shoulder` (1), `square` (1)
+- **Sleeve** (Total non-null: 8): `long sleeve` (3), `cap sleeve` (2), `sleeveless` (1), `strapless` (1), `puff sleeve` (1)
+- **Length** (Total non-null: 10): `sweep train` (4), `short` (2), `high slit` (2), `ankle length` (1), `floor length` (1)
+- **Embellishment** (Total non-null: 7): `sequin` (3), `pleated` (2), `feather trim` (1), `embroidery` (1)
+- **Color** (Total non-null: 11): `white` (2), `royal navy` (2), `pink` (1), `purple` (1), `red` (1), `lavender` (1), `gold` (1), `silver` (1), `dusty blue` (1), `black` (1)
+- **Category** (Total non-null: 15): `evening gown` (6), `prom gown` (4), `wedding dress` (3), `cocktail dress` (1), `bridesmaid dress` (1)
 
 ---
 
@@ -44,18 +44,21 @@ This section lists the exact class-level and value-level support counts backing 
 
 Below are the logged cases where the ML model automatically fell back to the rule-based prediction because the target class/color had fewer than 3 training examples:
 
-- Row 4: Field 'Color' fallback triggered: Colors ['silver'] have < 3 training examples. Fell back to rule-based.
-- Row 8: Field 'Color' fallback triggered: Colors ['silver'] have < 3 training examples. Fell back to rule-based.
-- Row 12: Field 'Color' fallback triggered: Colors ['rose gold', 'gold'] have < 3 training examples. Fell back to rule-based.
+- Row 1: Field 'Length' fallback triggered: Class 'ankle length' has < 3 training examples. Fell back to rule-based.
+- Row 1: Field 'Color' fallback triggered: Colors ['pink'] have < 3 training examples. Fell back to rule-based.
+- Row 7: Field 'Color' fallback triggered: Colors ['lavender'] have < 3 training examples. Fell back to rule-based.
+- Row 9: Field 'Color' fallback triggered: Colors ['gold'] have < 3 training examples. Fell back to rule-based.
+- Row 11: Field 'Color' fallback triggered: Colors ['blue'] have < 3 training examples. Fell back to rule-based.
+- Row 12: Field 'Silhouette' fallback triggered: Class 'fit and flare' has < 3 training examples. Fell back to rule-based.
 
 ---
 
 ## ML Error & Failure Analysis
 
 The 3 worst-performing fields for the ML model were:
-1. `Neckline`: 2 prediction error(s) in test set.
-1. `Embellishment`: 1 prediction error(s) in test set.
-1. `Length`: 1 prediction error(s) in test set.
+1. `Category`: 4 prediction error(s) in test set.
+1. `Silhouette`: 2 prediction error(s) in test set.
+1. `Sleeve`: 1 prediction error(s) in test set.
 
 ### Qualitative Error Analysis
 1. **Ambiguous Synonyms / Multi-words**: Phrases such as "illusion neckline" vs "V neckline" can confuse tokenizers, especially when small parts overlaps (e.g. "neckline").

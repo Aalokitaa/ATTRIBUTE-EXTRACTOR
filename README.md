@@ -139,19 +139,20 @@ curl -X 'POST' \
   "Embellishment": "pleated",
   "Color": [
     "sage",
-    "dusty blue"
+    "dusty blue",
+    "blue"
   ],
   "Category": "bridesmaid dress",
   "strategy_used": "ml",
   "confidence": {
     "Silhouette": 0.0,
-    "Fabric": 0.9047071010357424,
-    "Neckline": 0.7098289017030592,
+    "Fabric": 0.9082625974214477,
+    "Neckline": 0.7584312370587759,
     "Sleeve": 0.0,
-    "Length": 0.8340568900485383,
-    "Embellishment": 0.905856839486976,
-    "Color": 0.9159746296693836,
-    "Category": 0.9406844007061602
+    "Length": 0.8804304675850594,
+    "Embellishment": 0.919189434155705,
+    "Color": 0.9557683754283849,
+    "Category": 0.9615432333621193
   },
   "matched_terms": {
     "Silhouette": [],
@@ -173,7 +174,8 @@ curl -X 'POST' \
     ],
     "Color": [
       "sage",
-      "dusty blue"
+      "dusty blue",
+      "blue"
     ]
   }
 }
@@ -207,13 +209,13 @@ curl -X 'POST' \
   "strategy_used": "ml",
   "confidence": {
     "Silhouette": 0.0,
-    "Fabric": 0.3975327465783013,
-    "Neckline": 0.3225007320254948,
+    "Fabric": 0.6973792065655826,
+    "Neckline": 0.6518548870766414,
     "Sleeve": 0.0,
     "Length": 0.0,
-    "Embellishment": 0.691312590147468,
+    "Embellishment": 0.7797252604148815,
     "Color": 0.0,
-    "Category": 0.6561140905749473
+    "Category": 0.7539697967829161
   },
   "matched_terms": {
     "Silhouette": [],
@@ -265,13 +267,13 @@ curl -X 'POST' \
   "Category": null,
   "strategy_used": "ml",
   "confidence": {
-    "Silhouette": 0.8984651618418478,
-    "Fabric": 0.8407957894015384,
-    "Neckline": 0.8877910387642637,
+    "Silhouette": 0.8964422920124471,
+    "Fabric": 0.8190438348820791,
+    "Neckline": 0.8739348944033349,
     "Sleeve": 0.0,
-    "Length": 0.8711213155201769,
+    "Length": 0.8778174984998214,
     "Embellishment": 0.0,
-    "Color": 0.9389012963210763,
+    "Color": 0.905270942035853,
     "Category": 0.0
   },
   "matched_terms": {
@@ -324,14 +326,14 @@ curl -X 'POST' \
   "Category": "wedding dress",
   "strategy_used": "ml",
   "confidence": {
-    "Silhouette": 0.8213800675611717,
-    "Fabric": 0.7249644015342711,
+    "Silhouette": 0.7050623349980334,
+    "Fabric": 0.7892948612181425,
     "Neckline": 0.0,
-    "Sleeve": 0.8181483513979343,
+    "Sleeve": 0.7454618043144199,
     "Length": 0.0,
     "Embellishment": 0.0,
     "Color": 0.0,
-    "Category": 0.8499341886499223
+    "Category": 0.708827742513581
   },
   "matched_terms": {
     "Silhouette": [
@@ -385,10 +387,10 @@ curl -X 'POST' \
     "Fabric": 0.0,
     "Neckline": 0.0,
     "Sleeve": 0.0,
-    "Length": 0.8196712110735843,
-    "Embellishment": 0.8058918624163574,
+    "Length": 0.8367159345994226,
+    "Embellishment": 0.8378173689870418,
     "Color": 0.0,
-    "Category": 0.8766707228591807
+    "Category": 0.8557112242476533
   },
   "matched_terms": {
     "Silhouette": [],
@@ -436,14 +438,14 @@ curl -X 'POST' \
   "Category": "evening gown",
   "strategy_used": "ml",
   "confidence": {
-    "Silhouette": 0.8883800289145216,
-    "Fabric": 0.8104523182449542,
+    "Silhouette": 0.9109195915786108,
+    "Fabric": 0.7713159950330787,
     "Neckline": 0.0,
-    "Sleeve": 0.7763061615129679,
+    "Sleeve": 0.6912599791964578,
     "Length": 0.0,
-    "Embellishment": 0.9107930355553752,
+    "Embellishment": 0.9075607469921281,
     "Color": 0.0,
-    "Category": 0.8289008648795134
+    "Category": 0.7970627045002256
   },
   "matched_terms": {
     "Silhouette": [
@@ -490,17 +492,17 @@ curl -X 'POST' \
   "Neckline": null,
   "Sleeve": null,
   "Length": "high slit",
-  "Embellishment": null,
+  "Embellishment": "ruched",
   "Color": [],
   "Category": null,
   "strategy_used": "ml",
   "confidence": {
-    "Silhouette": 0.5178500800884419,
-    "Fabric": 0.6827841899747547,
+    "Silhouette": 0.8650797112634887,
+    "Fabric": 0.8702698953594123,
     "Neckline": 0.0,
     "Sleeve": 0.0,
-    "Length": 0.5845025670709172,
-    "Embellishment": 0.45804034600311677,
+    "Length": 0.823268084875114,
+    "Embellishment": 0.8201656864213974,
     "Color": 0.0,
     "Category": 0.0
   },
@@ -516,7 +518,9 @@ curl -X 'POST' \
     "Length": [
       "side slit"
     ],
-    "Embellishment": [],
+    "Embellishment": [
+      "ruched"
+    ],
     "Category": [],
     "Color": []
   }
@@ -552,8 +556,8 @@ curl -X 'POST' \
   "confidence": {
     "Silhouette": 0.0,
     "Fabric": 0.0,
-    "Neckline": 0.6371457425078711,
-    "Sleeve": 0.6117377596076113,
+    "Neckline": 0.7646822262998526,
+    "Sleeve": 0.8112140187997918,
     "Length": 0.0,
     "Embellishment": 0.0,
     "Color": 0.0,
@@ -604,10 +608,10 @@ curl -X 'POST' \
   "strategy_used": "ml",
   "confidence": {
     "Silhouette": 0.0,
-    "Fabric": 0.5151916700207718,
-    "Neckline": 0.6447434249159417,
+    "Fabric": 0.6719562424099638,
+    "Neckline": 0.7948431011631434,
     "Sleeve": 0.0,
-    "Length": 0.663016969447428,
+    "Length": 0.8035185251558226,
     "Embellishment": 0.0,
     "Color": 0.0,
     "Category": 0.0
@@ -659,13 +663,13 @@ curl -X 'POST' \
   "strategy_used": "ml",
   "confidence": {
     "Silhouette": 0.0,
-    "Fabric": 0.8262756360672655,
-    "Neckline": 0.8338672059790954,
-    "Sleeve": 0.8353144848043164,
+    "Fabric": 0.8259950961578286,
+    "Neckline": 0.8475999782647605,
+    "Sleeve": 0.8567038988147349,
     "Length": 0.0,
     "Embellishment": 0.0,
     "Color": 0.0,
-    "Category": 0.8648414097304833
+    "Category": 0.843391898080347
   },
   "matched_terms": {
     "Silhouette": [],

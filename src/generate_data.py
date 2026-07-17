@@ -308,6 +308,61 @@ DATASET = [
         "description": "Tulle A-line evening gown featuring floral embroidery, sleeveless bodice, and floor length skirt in blush",
         "silhouette": "A-line", "fabric": "tulle", "neckline": None, "sleeve": "sleeveless", "length": "floor length", "embellishment": "embroidery",
         "color": ["blush"], "category": "evening gown"
+    },
+    {
+        "description": "Chiffon A-line bridesmaid dress in soft purple with a pleated bodice and V neck",
+        "silhouette": "A-line", "fabric": "chiffon", "neckline": "V neck", "sleeve": None, "length": None, "embellishment": "pleated",
+        "color": ["purple"], "category": "bridesmaid dress"
+    },
+    {
+        "description": "Purple sequin prom gown with a sweetheart neckline and strapless corset back",
+        "silhouette": None, "fabric": "sequin", "neckline": "sweetheart", "sleeve": "strapless", "length": None, "embellishment": "sequin",
+        "color": ["purple"], "category": "prom gown"
+    },
+    {
+        "description": "Velvet evening gown in deep purple with a square neckline, puff sleeves, and high slit",
+        "silhouette": None, "fabric": "velvet", "neckline": "square", "sleeve": "puff sleeve", "length": "high slit", "embellishment": None,
+        "color": ["purple"], "category": "evening gown"
+    },
+    {
+        "description": "Lace mermaid wedding dress in ivory white with long sleeves and a purple ribbon sash",
+        "silhouette": "mermaid", "fabric": "lace", "neckline": None, "sleeve": "long sleeve", "length": None, "embellishment": None,
+        "color": ["ivory", "purple"], "category": "wedding dress"
+    },
+    {
+        "description": "Short cocktail dress with feather trim in bright purple satin and sleeveless bodice",
+        "silhouette": None, "fabric": "satin", "neckline": None, "sleeve": "sleeveless", "length": "short", "embellishment": "feather trim",
+        "color": ["purple"], "category": "cocktail dress"
+    },
+    {
+        "description": "Midi length cocktail dress in fuchsia pink satin with off shoulder neckline",
+        "silhouette": None, "fabric": "satin", "neckline": "off shoulder", "sleeve": None, "length": "midi", "embellishment": None,
+        "color": ["pink"], "category": "cocktail dress"
+    },
+    {
+        "description": "Short knee-length bridesmaid dress with cap sleeves in baby blue chiffon",
+        "silhouette": None, "fabric": "chiffon", "neckline": None, "sleeve": "cap sleeve", "length": "knee length", "embellishment": None,
+        "color": ["blue"], "category": "bridesmaid dress"
+    },
+    {
+        "description": "Ankle-length prom gown in forest green velvet with a square neck and long sleeves",
+        "silhouette": None, "fabric": "velvet", "neckline": "square", "sleeve": "long sleeve", "length": "ankle length", "embellishment": None,
+        "color": ["green"], "category": "prom gown"
+    },
+    {
+        "description": "Midi length tea-length dress with ruched waist in royal blue stretch jersey",
+        "silhouette": None, "fabric": "jersey", "neckline": None, "sleeve": None, "length": "midi", "embellishment": "ruched",
+        "color": ["blue"], "category": None
+    },
+    {
+        "description": "Knee length party dress in bright green sequins and sleeveless sweetheart neckline",
+        "silhouette": None, "fabric": "sequin", "neckline": "sweetheart", "sleeve": "sleeveless", "length": "knee length", "embellishment": "sequin",
+        "color": ["green"], "category": "cocktail dress"
+    },
+    {
+        "description": "Ankle length wedding gown in white lace with a pink ribbon belt and cap sleeves",
+        "silhouette": None, "fabric": "lace", "neckline": None, "sleeve": "cap sleeve", "length": "ankle length", "embellishment": None,
+        "color": ["white", "pink"], "category": "wedding dress"
     }
 ]
 
