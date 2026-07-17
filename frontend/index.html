@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AX - Studio: Attribute Extractor</title>
+    <!-- Google Fonts: Oswald for bold display caps, JetBrains Mono for output data, and Inter for UI elements -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #120a05;         /* Deep warm charcoal/black */
+            --card-bg: #1c110a;          /* Dark chocolate brown card */
+            --border-color: #352318;      /* Warm brown border */
+            --text-primary: #f5ece5;      /* Warm cream white text */
+            --text-secondary: #9a7d6a;    /* Muted warm taupe text */
+            --accent-color: #d97706;      /* Bright amber/orange */
+            --accent-hover: #b45309;      /* Darker amber */
+            --inset-bg: #150d08;          /* Monospace container background */
+            --dot-active: #10b981;        /* Pulsing green connection dot */
+            --muted-empty: #553e2f;       /* Muted text for unspecified attributes */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2.5rem 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Giant watermarked text behind header */
+        .bg-watermark {
+            position: absolute;
+            right: 8%;
+            top: -20px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 16rem;
+            font-weight: 700;
+            color: rgba(217, 119, 6, 0.02);
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+        }
+
+        .container {
+            max-width: 1280px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        /* Top Navigation bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .nav-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            color: var(--text-secondary);
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--dot-active);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--dot-active);
+            animation: pulse 1.8s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Main Hero Headers */
+        .hero {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 5rem;
+            line-height: 0.9;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero h1 .word-primary {
+            color: var(--text-primary);
+        }
+
+        .hero h1 .word-accent {
+            color: var(--accent-color);
+        }
+
+        .hero-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            max-width: 500px;
+            margin-top: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Main layout split columns */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        @media (min-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1.1fr 1fr;
+            }
+        }
+
+        /* Left Side: Input area with vertical indicator label */
+        .input-wrapper {
+            display: flex;
+            gap: 1.5rem;
+            height: 100%;
+        }
+
+        .input-sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.25em;
+            padding-top: 1.5rem;
+        }
+
+        .input-sidebar span {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        .input-sidebar .line {
+            width: 1px;
+            background-color: var(--border-color);
+            flex-grow: 1;
+            margin-top: 1.5rem;
+            min-height: 150px;
+        }
+
+        .input-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card-header-mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 160px;
+            background-color: var(--inset-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.25rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.25s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.15);
+        }
+
+        /* Pill seeds selection */
+        .seeds-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .seeds-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .seeds-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .seed-pill {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.45rem 0.85rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .seed-pill:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background-color: rgba(217, 119, 6, 0.02);
+        }
+
+        /* Strategy Selector segment */
+        .strategy-selector {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .strategy-btn {
+            flex: 1;
+            background-color: var(--inset-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .strategy-btn.active {
+            border-color: var(--accent-color);
+            color: var(--text-primary);
+            background-color: rgba(217, 119, 6, 0.08);
+        }
+
+        /* Button Action Extractor */
+        .btn-extract {
+            background-color: var(--accent-color);
+            color: #0f0a05;
+            border: none;
+            padding: 1.1rem;
+            border-radius: 6px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .btn-extract:hover {
+            background-color: #f59e0b;
+        }
+
+        .btn-extract:disabled {
+            background-color: #2c1e14;
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        .counts-footer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Right Side: Output area */
+        .output-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            width: 100%;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--text-secondary);
+        }
+
+        .output-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .output-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .output-card:hover {
+            border-color: #4b3223;
+        }
+
+        .output-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .output-value-container {
+            background-color: var(--inset-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.7rem 0.9rem;
+            min-height: 2.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .output-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .output-value.empty {
+            color: var(--muted-empty);
+            font-style: italic;
+        }
+
+        .output-confidence {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Color tag badges container */
+        .color-card {
+            grid-column: span 2;
+        }
+
+        .color-badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .color-badge {
+            background-color: #2a1b12;
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Bottom status and help */
+        .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .btn-help {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-help:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Modal help rules */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(18, 10, 5, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .modal-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .btn-modal-close {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 0.6rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        /* Spinner inside button */
+        .spinner {
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 2px solid #000;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Highlight matching terms from rule extractor */
+        .matched-tags {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Watermark -->
+    <div class="bg-watermark">ATTR.</div>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-logo">AX — STUDIO</div>
+            <div class="nav-links">
+                <a href="#tool">TOOL</a>
+                <a href="/docs" target="_blank">DOCS</a>
+                <a href="/redoc" target="_blank">API</a>
+                <div class="nav-status">
+                    <div class="status-dot"></div>
+                    <span>API CONNECTED</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>
+                <span class="word-primary">ATTRIBUTE</span>
+                <span class="word-accent">EXTRACTOR</span>
+            </h1>
+            <p class="hero-desc">
+                Convert unstructured product descriptions into structured attributes — instantly.
+            </p>
+        </div>
+
+        <!-- Dashboard Body -->
+        <div class="dashboard-grid" id="tool">
+            <!-- Left Panel: Input Wrapper -->
+            <div class="input-wrapper">
+                <!-- Vertical sidebar element -->
+                <div class="input-sidebar">
+                    <span>INPUT</span>
+                    <div class="line"></div>
+                </div>
+
+                <!-- Input Card container -->
+                <div class="input-card">
+                    <div class="card-header-mono">
+                        <span>Description Input</span>
+                        <span>TEXT SOURCE</span>
+                    </div>
+
+                    <!-- Text Area Input -->
+                    <textarea id="description" placeholder="Type or paste a product description here..."></textarea>
+
+                    <!-- Clickable Seeds Flex -->
+                    <div class="seeds-container">
+                        <span class="seeds-title">Select a test seed template:</span>
+                        <div class="seeds-flex">
+                            <button type="button" class="seed-pill" data-idx="0">Bridesmaid dress</button>
+                            <button type="button" class="seed-pill" data-idx="1">Prom gown</button>
+                            <button type="button" class="seed-pill" data-idx="2">Ball gown (Satin)</button>
+                            <button type="button" class="seed-pill" data-idx="3">Mermaid (Lace)</button>
+                            <button type="button" class="seed-pill" data-idx="4">Cocktail dress</button>
+                            <button type="button" class="seed-pill" data-idx="5">Evening gown</button>
+                            <button type="button" class="seed-pill" data-idx="6">Sheath dress</button>
+                            <button type="button" class="seed-pill" data-idx="7">Glitter gown</button>
+                            <button type="button" class="seed-pill" data-idx="8">Chiffon dress</button>
+                            <button type="button" class="seed-pill" data-idx="9">Velvet dress</button>
+                        </div>
+                    </div>
+
+                    <!-- Strategy selector segment -->
+                    <div class="seeds-container">
+                        <span class="seeds-title">Extraction Model Strategy:</span>
+                        <div class="strategy-selector">
+                            <button type="button" class="strategy-btn active" id="strat-ml">Machine Learning (ML)</button>
+                            <button type="button" class="strategy-btn" id="strat-rule">Rule-Based</button>
+                        </div>
+                    </div>
+
+                    <!-- Submit action button -->
+                    <button type="button" class="btn-extract" id="extractBtn">
+                        <div class="spinner" id="btnSpinner"></div>
+                        <span id="btnText">EXTRACT ATTRIBUTES &rarr;</span>
+                    </button>
+
+                    <!-- Characters count footer -->
+                    <div class="counts-footer" id="countsFooter">
+                        0 chars &middot; 0 words
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Structured Output -->
+            <div class="output-section">
+                <div class="output-header">
+                    <span>STRUCTURED OUTPUT</span>
+                    <span id="parsedFieldCount">8 FIELDS PARSED</span>
+                </div>
+
+                <div class="output-grid">
+                    <!-- Silhouette -->
+                    <div class="output-card">
+                        <div class="output-label">SILHOUETTE</div>
+                        <div class="output-value-container">
+                            <span class="output-value empty" id="out-Silhouette">not specified</span>
+                            <span class="output-confidence" id="conf-Silhouette">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Fabric -->
+                    <div class="output-card">
+                        <div class="output-label">FABRIC</div>
+                        <div class="output-value-container">
+                            <span class="output-value empty" id="out-Fabric">not specified</span>
+                            <span class="output-confidence" id="conf-Fabric">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Neckline -->
+                    <div class="output-card">
+                        <div class="output-label">NECLINE</div>
+                        <div class="output-value-container">
+                            <span class="output-value empty" id="out-Neckline">not specified</span>
+                            <span class="output-confidence" id="conf-Neckline">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Sleeve -->
+                    <div class="output-card">
+                        <div class="output-label">SLEEVE</div>
+                        <div class="output-value-container">
+                            <span class="output-value empty" id="out-Sleeve">not specified</span>
+                            <span class="output-confidence" id="conf-Sleeve">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Length -->
+                    <div class="output-card">
+                        <div class="output-label">LENGTH</div>
+                        <div class="output-value-container">
+                            <span class="output-value empty" id="out-Length">not specified</span>
+                            <span class="output-confidence" id="conf-Length">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Embellishment -->
+                    <div class="output-card">
+                        <div class="output-label">EMBELLISHMENT</div>
+                        <div class="output-value-container">
+                            <span class="output-value empty" id="out-Embellishment">not specified</span>
+                            <span class="output-confidence" id="conf-Embellishment">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="output-card">
+                        <div class="output-label">CATEGORY</div>
+                        <div class="output-value-container">
+                            <span class="output-value empty" id="out-Category">not specified</span>
+                            <span class="output-confidence" id="conf-Category">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Color spanning full columns width -->
+                    <div class="output-card color-card">
+                        <div class="output-label">COLOR</div>
+                        <div class="output-value-container" style="min-height: 3.25rem;">
+                            <div class="color-badges-container" id="out-Color-badges">
+                                <span class="output-value empty" id="out-Color-empty">not specified</span>
+                            </div>
+                            <span class="output-confidence" id="conf-Color">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Optional matched vocabulary terms section -->
+                    <div class="output-card color-card matched-tags" id="matchedTermsCard" style="display: none;">
+                        <div class="output-label">MATCHED VOCABULARY TERMS</div>
+                        <div class="output-value-container" style="flex-wrap: wrap; gap: 0.5rem; padding: 0.8rem; background-color: rgba(217, 119, 6, 0.02);" id="matchedTermsGrid">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom indicators bar -->
+                <div class="bottom-bar">
+                    <span id="connectionModeText">Connected to FastAPI endpoint · ML extraction ready</span>
+                    <button class="btn-help" id="helpBtn">?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <h3>AX - STUDIO HELP</h3>
+            <p><strong>AX - Studio</strong> is a dashboard that interacts with our hybrid product attribute extraction server.</p>
+            <p>1. Select one of the prefilled pill buttons to load an evaluation seed sentence from the assignment split, or type custom description text.</p>
+            <p>2. Choose the extraction strategy. **ML** uses the hybrid classification pipeline with automatic low-support fallbacks. **Rule-Based** executes literal vocabulary matching.</p>
+            <p>3. Click **Extract Attributes** to run predictions. Output cards highlight parsed values and confidence percentages.</p>
+            <button class="btn-modal-close" id="modalCloseBtn">CLOSE</button>
+        </div>
+    </div>
+
+    <script>
+        // Verbatim 10 seed sentences
+        const seedSentences = [
+            "Floor length chiffon bridesmaid dress with pleated bodice and V neckline available in sage and dusty blue",
+            "Sparkly sequin fitted prom gown featuring a deep illusion neckline and open back",
+            "Off shoulder satin ball gown with corset bodice and sweep train in royal navy",
+            "Lace mermaid wedding dress with long sleeves and scalloped hem",
+            "Short cocktail dress with feather trim and beaded waist detail",
+            "Tulle A line evening gown with floral embroidery and cap sleeves",
+            "Stretch jersey sheath dress with ruched waist and side slit",
+            "Strapless sweetheart neckline glitter gown with layered skirt",
+            "One shoulder draped chiffon dress with high slit and empire waist",
+            "Velvet winter formal dress with square neckline and puff sleeves"
+        ];
+
+        // Core fields to render
+        const attributes = ["Silhouette", "Fabric", "Neckline", "Sleeve", "Length", "Embellishment", "Category"];
+
+        // Variables
+        let currentStrategy = "ml";
+
+        // DOM elements
+        const descriptionInput = document.getElementById("description");
+        const countsFooter = document.getElementById("countsFooter");
+        const extractBtn = document.getElementById("extractBtn");
+        const btnSpinner = document.getElementById("btnSpinner");
+        const btnText = document.getElementById("btnText");
+        const stratMlBtn = document.getElementById("strat-ml");
+        const stratRuleBtn = document.getElementById("strat-rule");
+        const parsedFieldCountText = document.getElementById("parsedFieldCount");
+        const connectionModeText = document.getElementById("connectionModeText");
+        const helpBtn = document.getElementById("helpBtn");
+        const helpModal = document.getElementById("helpModal");
+        const modalCloseBtn = document.getElementById("modalCloseBtn");
+        const matchedTermsCard = document.getElementById("matchedTermsCard");
+        const matchedTermsGrid = document.getElementById("matchedTermsGrid");
+
+        // Set up characters and words counters
+        function updateCounts() {
+            const text = descriptionInput.value.trim();
+            const charCount = text.length;
+            const wordCount = text === "" ? 0 : text.split(/\s+/).length;
+            countsFooter.innerText = `${charCount} chars · ${wordCount} words`;
+        }
+        descriptionInput.addEventListener("input", updateCounts);
+
+        // Pre-fill seed buttons
+        document.querySelectorAll(".seed-pill").forEach(pill => {
+            pill.addEventListener("click", () => {
+                const idx = parseInt(pill.getAttribute("data-idx"));
+                descriptionInput.value = seedSentences[idx];
+                updateCounts();
+                // Brief amber border glow effect
+                descriptionInput.style.borderColor = "var(--accent-color)";
+                setTimeout(() => {
+                    descriptionInput.style.borderColor = "";
+                }, 400);
+            });
+        });
+
+        // Strategy Selectors
+        stratMlBtn.addEventListener("click", () => {
+            currentStrategy = "ml";
+            stratMlBtn.classList.add("active");
+            stratRuleBtn.classList.remove("active");
+        });
+        stratRuleBtn.addEventListener("click", () => {
+            currentStrategy = "rule_based";
+            stratRuleBtn.classList.add("active");
+            stratMlBtn.classList.remove("active");
+        });
+
+        // Endpoint routing resolver
+        function getApiUrl() {
+            return window.location.protocol === "file:" ? "http://127.0.0.1:8000/extract" : "/extract";
+        }
+
+        // Call Extraction endpoint
+        extractBtn.addEventListener("click", async () => {
+            const description = descriptionInput.value.trim();
+            if (!description) {
+                alert("Please enter or prefill a description text first.");
+                return;
+            }
+
+            // Enter loading state
+            extractBtn.disabled = true;
+            btnSpinner.style.display = "block";
+            btnText.innerText = "EXTRACTING...";
+
+            try {
+                const response = await fetch(getApiUrl(), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        description: description,
+                        strategy: currentStrategy
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || "API extraction request failed.");
+                }
+
+                const data = await response.json();
+                renderResults(data);
+            } catch (err) {
+                alert(`Extraction Error: ${err.message}`);
+                console.error(err);
+            } finally {
+                // Exit loading state
+                extractBtn.disabled = false;
+                btnSpinner.style.display = "none";
+                btnText.innerText = "EXTRACT ATTRIBUTES →";
+            }
+        });
+
+        // Display results
+        function renderResults(data) {
+            let parsedCount = 0;
+
+            // Render standard fields
+            attributes.forEach(attr => {
+                const valueEl = document.getElementById(`out-${attr}`);
+                const confEl = document.getElementById(`conf-${attr}`);
+                const val = data[attr];
+                const confidence = data.confidence ? data.confidence[attr] : 0.0;
+
+                if (val !== null && val !== undefined && val !== "") {
+                    valueEl.innerText = val;
+                    valueEl.classList.remove("empty");
+                    confEl.innerText = `${(confidence * 100).toFixed(0)}%`;
+                    parsedCount++;
+                } else {
+                    valueEl.innerText = "not specified";
+                    valueEl.classList.add("empty");
+                    confEl.innerText = "-";
+                }
+            });
+
+            // Render Color field (list values)
+            const colorBadgesContainer = document.getElementById("out-Color-badges");
+            const colorConfEl = document.getElementById("conf-Color");
+            const colorsList = data.Color || [];
+            const colorConfidence = data.confidence ? data.confidence.Color : 0.0;
+
+            colorBadgesContainer.innerHTML = "";
+            if (colorsList.length > 0) {
+                colorsList.forEach(color => {
+                    const badge = document.createElement("span");
+                    badge.className = "color-badge";
+                    badge.innerText = color;
+                    colorBadgesContainer.appendChild(badge);
+                });
+                colorConfEl.innerText = `${(colorConfidence * 100).toFixed(0)}%`;
+                parsedCount++;
+            } else {
+                colorBadgesContainer.innerHTML = `<span class="output-value empty" id="out-Color-empty">not specified</span>`;
+                colorConfEl.innerText = "-";
+            }
+
+            // Update header count text
+            parsedFieldCountText.innerText = `${parsedCount} FIELDS PARSED`;
+
+            // Connection indicator text update
+            if (data.strategy_used === "rule_based" && currentStrategy === "ml") {
+                connectionModeText.innerText = "Fallback triggered · Rare values routed to rule-based engine";
+            } else {
+                connectionModeText.innerText = `FastAPI connected · ${data.strategy_used === "ml" ? "ML model active" : "Rule matching active"}`;
+            }
+
+            // Render matched terms if rule extraction is used
+            const matchedTerms = data.matched_terms || {};
+            let hasMatchedTerms = false;
+            matchedTermsGrid.innerHTML = "";
+
+            for (const [key, list] of Object.entries(matchedTerms)) {
+                if (list && list.length > 0) {
+                    hasMatchedTerms = true;
+                    list.forEach(term => {
+                        const tag = document.createElement("span");
+                        tag.className = "color-badge";
+                        tag.style.color = "#34d399"; // light emerald for rule matches
+                        tag.style.backgroundColor = "rgba(16, 185, 129, 0.05)";
+                        tag.style.borderColor = "rgba(16, 185, 129, 0.2)";
+                        tag.innerText = `${key}: ${term}`;
+                        matchedTermsGrid.appendChild(tag);
+                    });
+                }
+            }
+
+            if (hasMatchedTerms) {
+                matchedTermsCard.style.display = "flex";
+            } else {
+                matchedTermsCard.style.display = "none";
+            }
+        }
+
+        // Help Modal toggle
+        helpBtn.addEventListener("click", () => helpModal.classList.add("open"));
+        modalCloseBtn.addEventListener("click", () => helpModal.classList.remove("open"));
+        helpModal.addEventListener("click", (e) => {
+            if (e.target === helpModal) helpModal.classList.remove("open");
+        });
+    </script>
+</body>
+</html>
